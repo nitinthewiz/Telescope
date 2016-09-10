@@ -1,0 +1,16 @@
+{
+  "name": "whatgives",
+  "description": "An open-source community app built with React & Meteor",
+  "repository": "https://github.com/nitinthewiz/Telescope/",
+  "logo": "http://placekitten.com/250/80",
+  "keywords": ["meteor", "social", "community"],
+  "env": {
+    "BUILDPACK_URL": "https://github.com/AdmitHub/meteor-buildpack-horse.git",
+    "ROOT_URL": {
+      "description": "The full URL of your Nova app (by default, http://appname.herokuapp.com)."
+    }
+  },
+  "addons": [
+    "mongolab"
+  ]
+}
