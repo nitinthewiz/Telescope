@@ -1,6 +1,6 @@
 import Posts from "meteor/nova:posts";
 import Users from 'meteor/nova:users';
-import Categories from "./collection.js";
+import nikhcoCategories from "./collection.js";
 
 Meteor.methods({
   "categories.deleteById": function (categoryId) {
@@ -12,11 +12,11 @@ Meteor.methods({
     if (Users.canDo(currentUser, "categories.remove.all")) {
 
       // delete category
-      Categories.remove(categoryId);
+      nikhcoCategories.remove(categoryId);
 
       // find any direct children of this category and make them root categories
-      Categories.find({parentId: categoryId}).forEach(function (category) {
-        Categories.update(category._id, {$unset: {parentId: ""}});
+      nikhcoCategories.find({parentId: categoryId}).forEach(function (category) {
+        nikhcoCategories.update(category._id, {$unset: {parentId: ""}});
       });
 
       // find any posts with this category and remove it
@@ -28,7 +28,7 @@ Meteor.methods({
   }
 });
 
-Categories.smartMethods({
+nikhcoCategories.smartMethods({
   createName: "categories.new",
   editName: "categories.edit"
 });

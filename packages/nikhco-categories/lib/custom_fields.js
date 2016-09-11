@@ -1,7 +1,7 @@
 import PublicationUtils from 'meteor/utilities:smart-publications';
 import Posts from "meteor/nova:posts";
 import Users from 'meteor/nova:users';
-import Categories from "./collection.js";
+import nikhcoCategories from "./collection.js";
 
 // check if user can create a new post
 const canInsert = user => Users.canDo(user, "posts.new");
@@ -22,7 +22,7 @@ Posts.addField(
         type: "bootstrap-category",
         order: 50,
         options: function () {
-          var categories = Categories.find().map(function (category) {
+          var categories = nikhcoCategories.find().map(function (category) {
             return {
               value: category._id,
               label: category.name
@@ -34,7 +34,7 @@ Posts.addField(
       publish: true,
       join: {
         joinAs: "categoriesArray",
-        collection: () => Categories
+        collection: () => nikhcoCategories
       }
     }
   }

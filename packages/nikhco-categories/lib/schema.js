@@ -1,12 +1,12 @@
 import Telescope from 'meteor/nova:lib';
-import Categories from "./collection.js";
+import nikhcoCategories from "./collection.js";
 import Users from 'meteor/nova:users';
 
 const canInsert = user => Users.canDo(user, "categories.new");
 const canEdit = user => Users.canDo(user, "categories.edit.all");
 
 // category schema
-Categories.schema = new SimpleSchema({
+nikhcoCategories.schema = new SimpleSchema({
   name: {
     type: String,
     insertableIf: canInsert,
@@ -52,7 +52,7 @@ Categories.schema = new SimpleSchema({
     publish: true,
     autoform: {
       options: function () {
-        var categories = Categories.find().map(function (category) {
+        var categories = nikhcoCategories.find().map(function (category) {
           return {
             value: category._id,
             label: category.name
@@ -65,10 +65,10 @@ Categories.schema = new SimpleSchema({
 });
 
 // Meteor.startup(function(){
-//   Categories.internationalize();
+//   nikhcoCategories.internationalize();
 // });
 
-Categories.attachSchema(Categories.schema);
+nikhcoCategories.attachSchema(nikhcoCategories.schema);
 
 
 Telescope.settings.collection.addField([
@@ -90,7 +90,7 @@ Telescope.settings.collection.addField([
     }
   },
   {
-    fieldName: 'hideEmptyCategories',
+    fieldName: 'hideEmptynikhcoCategories',
     fieldSchema: {
       type: Boolean,
       optional: true,

@@ -1,3 +1,3 @@
-const Categories = new Mongo.Collection("categories");
+const nikhcoCategories = new Mongo.Collection("categories");
 
-export default Categories;
+export default nikhcoCategories;

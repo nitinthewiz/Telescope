@@ -1,5 +1,5 @@
 import Telescope from 'meteor/nova:lib';
-import Categories from "./collection.js";
+import nikhcoCategories from "./collection.js";
 
 // Category Parameter
 // Add a "categories" property to terms which can be used to filter *all* existing Posts views. 
@@ -20,12 +20,12 @@ function addCategoryParameter (parameters, terms) {
     }
 
     // get all categories passed in terms
-    var categories = Categories.find(selector).fetch();
+    var categories = nikhcoCategories.find(selector).fetch();
     
     // for each category, add its ID and the IDs of its children to categoriesId array
     categories.forEach(function (category) {
       categoriesIds.push(category._id);
-      categoriesIds = categoriesIds.concat(_.pluck(Categories.getChildren(category), "_id"));
+      categoriesIds = categoriesIds.concat(_.pluck(nikhcoCategories.getChildren(category), "_id"));
     });
 
     parameters.selector.categories = {$in: categoriesIds};

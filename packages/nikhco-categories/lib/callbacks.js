@@ -1,32 +1,32 @@
 import Telescope from 'meteor/nova:lib';
 import Posts from "meteor/nova:posts";
-import Categories from "./collection.js";
+import nikhcoCategories from "./collection.js";
 
 // generate slug on insert
-Categories.before.insert(function (userId, doc) {
+nikhcoCategories.before.insert(function (userId, doc) {
   // if no slug has been provided, generate one
   var slug = !!doc.slug ? doc.slug : Telescope.utils.slugify(doc.name);
-  doc.slug = Telescope.utils.getUnusedSlug(Categories, slug);
+  doc.slug = Telescope.utils.getUnusedSlug(nikhcoCategories, slug);
 });
 
 // generate slug on edit, if it has changed
-Categories.before.update(function (userId, doc, fieldNames, modifier) {
+nikhcoCategories.before.update(function (userId, doc, fieldNames, modifier) {
   if (modifier.$set && modifier.$set.slug && modifier.$set.slug !== doc.slug) {
-    modifier.$set.slug = Telescope.utils.getUnusedSlug(Categories, modifier.$set.slug);
+    modifier.$set.slug = Telescope.utils.getUnusedSlug(nikhcoCategories, modifier.$set.slug);
   }
 });
 
 // add callback that adds categories CSS classes
 function addCategoryClass (postClass, post) {
-  var classArray = _.map(Posts.getCategories(post), function (category){return "category-"+category.slug;});
+  var classArray = _.map(Posts.getnikhcoCategories(post), function (category){return "category-"+category.slug;});
   return postClass + " " + classArray.join(' ');
 }
 Telescope.callbacks.add("postClass", addCategoryClass);
 
-// ------- Categories Check -------- //
+// ------- nikhcoCategories Check -------- //
 
 // make sure all categories in the post.categories array exist in the db
-var checkCategories = function (post) {
+var checknikhcoCategories = function (post) {
 
   // if there are no categories, stop here
   if (!post.categories || post.categories.length === 0) {
@@ -34,57 +34,57 @@ var checkCategories = function (post) {
   }
 
   // check how many of the categories given also exist in the db
-  var categoryCount = Categories.find({_id: {$in: post.categories}}).count();
+  var categoryCount = nikhcoCategories.find({_id: {$in: post.categories}}).count();
 
   if (post.categories.length !== categoryCount) {
     throw new Meteor.Error('invalid_category', 'invalid_category');
   }
 };
 
-function postsNewCheckCategories (post) {
-  checkCategories(post);
+function postsNewChecknikhcoCategories (post) {
+  checknikhcoCategories(post);
   return post;
 }
-Telescope.callbacks.add("posts.new.sync", postsNewCheckCategories);
+Telescope.callbacks.add("posts.new.sync", postsNewChecknikhcoCategories);
 
-function postEditCheckCategories (post) {
-  checkCategories(post);
+function postEditChecknikhcoCategories (post) {
+  checknikhcoCategories(post);
   return post;
 }
-Telescope.callbacks.add("posts.edit.sync", postEditCheckCategories);
+Telescope.callbacks.add("posts.edit.sync", postEditChecknikhcoCategories);
 
 // TODO: debug this
 
-// function addParentCategoriesOnSubmit (post) {
+// function addParentnikhcoCategoriesOnSubmit (post) {
 //   var categories = post.categories;
-//   var newCategories = [];
+//   var newnikhcoCategories = [];
 //   if (categories) {
 //     categories.forEach(function (categoryId) {
-//       var category = Categories.findOne(categoryId);
-//       newCategories = newCategories.concat(_.pluck(category.getParents().reverse(), "_id"));
-//       newCategories.push(category._id);
+//       var category = nikhcoCategories.findOne(categoryId);
+//       newnikhcoCategories = newnikhcoCategories.concat(_.pluck(category.getParents().reverse(), "_id"));
+//       newnikhcoCategories.push(category._id);
 //     });
 //   }
-//   post.categories = _.unique(newCategories);
+//   post.categories = _.unique(newnikhcoCategories);
 //   return post;
 // }
-// Telescope.callbacks.add("posts.new.sync", addParentCategoriesOnSubmit);
+// Telescope.callbacks.add("posts.new.sync", addParentnikhcoCategoriesOnSubmit);
 
-// function addParentCategoriesOnEdit (modifier, post) {
+// function addParentnikhcoCategoriesOnEdit (modifier, post) {
 //   if (modifier.$unset && modifier.$unset.categories !== undefined) {
 //     return modifier;
 //   }
 
 //   var categories = modifier.$set.categories;
-//   var newCategories = [];
+//   var newnikhcoCategories = [];
 //   if (categories) {
 //     categories.forEach(function (categoryId) {
-//       var category = Categories.findOne(categoryId);
-//       newCategories = newCategories.concat(_.pluck(category.getParents().reverse(), "_id"));
-//       newCategories.push(category._id);
+//       var category = nikhcoCategories.findOne(categoryId);
+//       newnikhcoCategories = newnikhcoCategories.concat(_.pluck(category.getParents().reverse(), "_id"));
+//       newnikhcoCategories.push(category._id);
 //     });
 //   }
-//   modifier.$set.categories = _.unique(newCategories);
+//   modifier.$set.categories = _.unique(newnikhcoCategories);
 //   return modifier;
 // }
-// Telescope.callbacks.add("posts.edit.sync", addParentCategoriesOnEdit);
+// Telescope.callbacks.add("posts.edit.sync", addParentnikhcoCategoriesOnEdit);
