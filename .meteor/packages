@@ -12,7 +12,7 @@ nova:newsletter
 nova:search
 nova:notifications
 nova:getting-started
-nova:categories
+# nova:categories
 nova:voting
 nova:forms
 nova:embedly
@@ -29,6 +29,7 @@ nova:base-styles
 nova:base-routes
 nova:email-templates
 nova:i18n-en-us
+nikhco:categories
 
 accounts-password@1.3.0
 # accounts-twitter
